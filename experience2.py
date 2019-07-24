@@ -2,6 +2,7 @@ from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Flatten
 from keras.layers import Concatenate
 from keras.layers.convolutional import Conv2D
+from keras import optimizers
 from keras.optimizers import Adam
 from keras.layers.pooling import MaxPooling2D
 from keras.preprocessing.image import ImageDataGenerator
@@ -12,8 +13,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import argparse
-from test import Import_jaff
 
+optimizer = Adam(0.0002, 0.5)
 
 # Create the model for right eye
 '''right_eye = Sequential()
@@ -60,7 +61,6 @@ mouth = Sequential()
 in5 = (None, None, 1)
 mouth.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=in5, batch_input_shape = (None, None, None, 1)))
 mouth.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-mouth.add(MaxPooling2D(pool_size=(2, 2)))
 mouth.add(Dropout(0.25))
 
 '''
@@ -83,7 +83,7 @@ jaw.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
 jaw.add(MaxPooling2D(pool_size=(2, 2)))
 jaw.add(Dropout(0.25))
 
-labels = np.ones((num_of_samples,),dtype='int64')
+labels = np.ones((213),dtype='int64')
 
 labels[0:29]=0 #30
 labels[30:58]=1 #29
@@ -100,9 +100,9 @@ names = ['ANGRY','DISGUST','FEAR','HAPPY','NEUTRAL','SAD','SURPRISE']
 #data_path2 = os.listdir('./landmarks/lfw/left_eye')
 #data_path3 = os.listdir('./landmarks/lfw/right_eyebrow')
 #data_path4 = os.listdir ('./landmarks/lfw/left_eyebrow')
-data_path5 = os.listdir('./landmarks/mouth')
+data_path5 = os.listdir('./landmark/mouth')
 #data_path6 = os.listdir('./landmarks/lfw/nose')
-data_path7 = os.listdir('./landmarks/jaw')
+data_path7 = os.listdir('./landmark/jaw')
 
 img_data_list1, img_data_list2, img_data_list3, img_data_list4, img_data_list5, img_data_list6, img_data_list7 = [], [], [], [], [], [], []
 '''for dataset in data_path1:
@@ -159,17 +159,23 @@ img_data4.shape
 xtrain4, xtest4,ytrain4,ytest4 = train_test_split(img_data4, labels_list,test_size=0.2,shuffle=True)
 '''
 for dataset in data_path5:
-    img_list5=os.listdir('./landmarks/mouth'+'/'+ dataset)
+
+    #print(data_path5)
+    #print(data_path5)
+    img_list5=os.listdir('/content/projet1/landmark/mouth'+'/'+ dataset)
+    img_list5 = [img_list for img_list in img_list5 if img_list[-4:]=='.jpg']
+    print(img_list5)
     for img in img_list5:
-        input_img5=cv2.imread('./landmarks/mouth' + '/'+ dataset + '/'+ img )
-        input_img5=cv2.resize(input_img5,(250,100))
+        input_img5=cv2.imread('/content/projet1/landmark/mouth' + '/'+ dataset + '/'+ img )
+        input_img5=cv2.resize(input_img5, (150,150))
+        input_img5=cv2.cvtColor(input_img5, cv2.COLOR_BGR2GRAY)
         img_data_list5.append(input_img5)
 
 img_data5 = np.asarray(img_data_list5)
 img_data5 = img_data5.astype('float32')
 img_data5 = np.expand_dims(img_data5, -1)
-img_data5.shape
-xtrain5, xtest5,ytrain5,ytest5 = train_test_split(img_data5, labels_list,test_size=0.2,shuffle=True)
+print(img_data5.shape)
+xtrain5, xtest5,ytrain5,ytest5 = train_test_split(img_data5, labels,test_size=0.2,shuffle=True)
 '''
 for dataset in data_path6:
     img_list6=os.listdir('./landmarks/lfw/nose'+'/'+ dataset)
@@ -185,16 +191,19 @@ img_data6.shape
 xtrain6, xtest6,ytrain6,ytest6 = train_test_split(img_data6, labels_list,test_size=0.2,shuffle=True)
 '''
 for dataset in data_path7:
-    img_list7=os.listdir('./landmarks/jaw'+'/'+ dataset)
+    img_list7=os.listdir('/content/projet1/landmark/mouth'+'/'+ dataset)
+    img_list7 = [img_list for img_list in img_list7 if img_list[-4:]=='.jpg']
+    print(img_list7)
     for img in img_list7:
-        input_img7=cv2.imread('./landmarks/jaw' + '/'+ dataset + '/'+ img )
-        input_img7=cv2.resize(input_img7,(250,100))
+        input_img7=cv2.imread('/content/projet1/landmark/mouth' + '/'+ dataset + '/'+ img )
+        input_img7=cv2.resize(input_img7, (150,150))
+        input_img7=cv2.cvtColor(input_img7, cv2.COLOR_BGR2GRAY)
         img_data_list7.append(input_img7)
 
 img_data7 = np.asarray(img_data_list7)
 img_data7 = img_data7.astype('float32')
 img_data7 = np.expand_dims(img_data7, -1)
-img_data7.shape
+print(img_data7.shape)
 xtrain7, xtest7,ytrain7,ytest7 = train_test_split(img_data7, labels,test_size=0.2,shuffle=True)
 
 ################################Train Models#############################################
