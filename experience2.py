@@ -61,6 +61,7 @@ mouth = Sequential()
 in5 = (None, None, 1)
 mouth.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=in5, batch_input_shape = (None, None, None, 1)))
 mouth.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+mouth.add(MaxPooling2D(pool_size=(3, 3)))
 mouth.add(Dropout(0.25))
 
 '''
@@ -210,12 +211,12 @@ xtrain7, xtest7,ytrain7,ytest7 = train_test_split(img_data7, labels,test_size=0.
 mouth.compile(loss='categorical_crossentropy',
               optimizer=optimizers.RMSprop(lr=1e-4),
               metrics=['acc'])
-history1 = mouth.fit(xtrain5, ytrain5, batch_size=32, nb_epoch=30, verbose=1)
+history1 = mouth.fit(xtrain5, ytrain5, batch_size=2, epochs=50, verbose=1)
 
 jaw.compile(loss='categorical_crossentropy',
               optimizer=optimizers.RMSprop(lr=1e-4),
               metrics=['acc'])
-history2 = jaw.fit(xtrain5, ytrain5, batch_size=32, nb_epoch=30, verbose=1)
+history2 = jaw.fit(xtrain5, ytrain5, batch_size=2, epochs=50, verbose=1)
 
 
 
