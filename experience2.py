@@ -246,7 +246,7 @@ nose.add(Dropout(0.25))
 '''
 # Create the model for jaw
 jaw = Sequential()
-jaw.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu', input_shape=xtrain5.shape[1:]))
+jaw.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu', input_shape=xtrain7.shape[1:]))
 jaw.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu'))
 jaw.add(MaxPool2D(pool_size=(2, 2)))
 jaw.add(Dropout(rate=0.25))
