@@ -92,6 +92,8 @@ img_data_list, img_data_list1, img_data_list2, img_data_list3, img_data_list4, i
     print('jaw')'''
 for img in train_data_path7:
         input_img7=cv2.imread('/content/drive/My Drive/test2/jaw' + '/'+ img )
+        if input_img7 == 0:
+                input_img7=np.ones(input_img7.shape,float)*0
         input_img7=cv2.resize(input_img7, (70,70))
         input_img7=cv2.cvtColor(input_img7, cv2.COLOR_BGR2GRAY)
         img_data_list7.append(input_img7)
