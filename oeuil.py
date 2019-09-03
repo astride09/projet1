@@ -31,8 +31,8 @@ a = ap.parse_args()
 mode = a.mode 
 
 
-label = np.ones(7700, dtype='int64')
-with open('labal.csv', 'r') as csvfile:
+label = np.ones(17166, dtype='int64')
+with open('jaw_label.csv', 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         
                 
@@ -78,8 +78,8 @@ labels[5500:6599]=5 #715
 labels[5600:7699]=6 #586
 print(labels.shape)
 print(label) """
-train_data_path7 = os.listdir('./base/test2/jaw')
-test_data_path7 = os.listdir('./base/test2/jaw')
+train_data_path7 = os.listdir('/content/drive/My Drive/test2/jaw')
+test_data_path7 = os.listdir('/content/drive/My Drive/test2/jaw')
 
 img_data_list, img_data_list1, img_data_list2, img_data_list3, img_data_list4, img_data_list5, img_data_list6, img_data_list7, img_data_list8 = [], [], [], [], [], [], [], [], []
 
@@ -91,7 +91,7 @@ img_data_list, img_data_list1, img_data_list2, img_data_list3, img_data_list4, i
     img_list7 = [img_list for img_list in img_list7 if img_list[-4:]=='.png' or '.jpg']
     print('jaw')'''
 for img in train_data_path7:
-        input_img7=cv2.imread('./base/test2/jaw' + '/'+ img )
+        input_img7=cv2.imread('/content/drive/My Drive/test2/jaw' + '/'+ img )
         input_img7=cv2.resize(input_img7, (70,70))
         input_img7=cv2.cvtColor(input_img7, cv2.COLOR_BGR2GRAY)
         img_data_list7.append(input_img7)
